@@ -2,12 +2,9 @@ package repository
 
 import (
 	"time"
-
-	"gorm.io/gorm"
 )
 
 type Transaction struct {
-	gorm.Model
 	ID        int `gorm:"primarykey"`
 	Sender    string
 	Receiver  string
