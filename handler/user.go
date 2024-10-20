@@ -17,9 +17,7 @@ func (h userHandler) GetUsers(c *fiber.Ctx) error {
 	
 	users, err := h.userService.GetUsers()
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"message": err.Error(),
-		})
+		return handlerError(c, err)
 	}
 
 	return c.JSON(fiber.Map{
@@ -33,10 +31,7 @@ func (h userHandler) GetUser(c *fiber.Ctx) error {
 
 	user, err := h.userService.GetUser(student_id)
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"message": err.Error(),
-		})
+		return handlerError(c, err)
 	}
-
 	return c.JSON(user)
 }

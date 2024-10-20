@@ -1,7 +1,12 @@
 package service
 
 import (
+	"fmt"
+
+	"github.com/CUBS-sources-code/CUBS-coin/errs"
+	"github.com/CUBS-sources-code/CUBS-coin/logs"
 	"github.com/CUBS-sources-code/CUBS-coin/repository"
+	"gorm.io/gorm"
 )
 
 type userService struct {
@@ -16,7 +21,8 @@ func (s userService) GetUsers() ([]UserResponse, error) {
 
 	users, err := s.userRepository.GetAll()
 	if err != nil {
-		return nil, err
+		logs.Error(err)
+		return nil, errs.NewUnexpectedError()
 	}
 
 	userResponses := []UserResponse{}
@@ -36,7 +42,15 @@ func (s userService) GetUsers() ([]UserResponse, error) {
 func (s userService) GetUser(id string) (*UserResponse, error) {
 	user, err := s.userRepository.GetById(id)
 	if err != nil {
-		return nil, err
+
+		if err == gorm.ErrRecordNotFound {
+			fmt.Println("err")
+			logs.Error(err)
+			return nil, errs.NewNotFoundError("user not found")
+		}
+
+		logs.Error(err)
+		return nil, errs.NewUnexpectedError()
 	}
 
 	userResponse := UserResponse{

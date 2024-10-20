@@ -9,6 +9,7 @@ type userRepositoryDB struct {
 }
 
 func NewUserRepositoryDB(db *gorm.DB) userRepositoryDB {
+	db.AutoMigrate(User{})
 	return userRepositoryDB{db: db}
 }
 
@@ -32,5 +33,43 @@ func (r userRepositoryDB) GetById(id string) (*User, error) {
 	if tx.Error != nil {
 		return nil, tx.Error
 	}
+	return &user, nil
+}
+
+func (r userRepositoryDB) AddBalance(id string, amount int) (*User, error) {
+
+	// Get data
+	user := User{}
+	tx := r.db.First(&user, id)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	
+	// Update data
+	user.Balance += amount
+	tx = r.db.Save(&user)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+
+	return &user, nil
+}
+
+func (r userRepositoryDB) SubtractBalance(id string, amount int) (*User, error) {
+
+	// Get data
+	user := User{}
+	tx := r.db.First(&user, id)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	
+	// Update data
+	user.Balance -= amount
+	tx = r.db.Save(&user)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+
 	return &user, nil
 }

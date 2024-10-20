@@ -1,6 +1,7 @@
 app:
+  name: "CUBS Coin service"
   port: 8000
-
+  prefork: true
 db:
   host: "localhost"
   port: 3306
