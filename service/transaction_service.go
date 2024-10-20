@@ -54,7 +54,7 @@ func (s transactionService) GetTransaction(id int) (*TransactionResponse, error)
 		if err == gorm.ErrRecordNotFound {
 			fmt.Println("err")
 			logs.Error(err)
-			return nil, errs.NewNotFoundError("user not found")
+			return nil, errs.NewNotFoundError("transaction not found")
 		}
 
 		logs.Error(err)

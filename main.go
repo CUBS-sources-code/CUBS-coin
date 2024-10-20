@@ -25,10 +25,7 @@ func main() {
 	db := initDatabase()
 	// Init fiber app
 	app := initApp()
-
-	// Mock repository
-	// userRepositoryMock := repository.NewUserRepositoryMock()
-	// _ = userRepositoryMock
+    api := app.Group("/api")
 
 	userRepository := repository.NewUserRepositoryDB(db)
 	userService := service.NewUserService(userRepository)
@@ -39,13 +36,13 @@ func main() {
     transactionHandler := handler.NewTransactionHandler(transactionService)
 
 	// Routes
-	app.Get("/users", userHandler.GetUsers)
-	app.Get("/user/:student_id", userHandler.GetUser)
-	app.Post("/createuser", userHandler.CreateUser)
+	api.Get("/users", userHandler.GetUsers)
+	api.Get("/user/:student_id", userHandler.GetUser)
+	api.Post("/user/create", userHandler.CreateUser)
 
-    app.Get("/transactions", transactionHandler.GetTransactions)
-	app.Get("/transaction/:id", transactionHandler.GetTransaction)
-    app.Post("/createtransaction", transactionHandler.CreateTransaction)
+    api.Get("/transactions", transactionHandler.GetTransactions)
+	api.Get("/transaction/:id", transactionHandler.GetTransaction)
+    api.Post("/transaction/create", transactionHandler.CreateTransaction)
 
 	// Start server
 	logs.Info("CUBS coin service started at port " + viper.GetString("app.port"))
