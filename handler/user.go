@@ -35,3 +35,18 @@ func (h userHandler) GetUser(c *fiber.Ctx) error {
 	}
 	return c.JSON(user)
 }
+
+func (h userHandler) CreateUser(c *fiber.Ctx) error {
+	
+	var request service.NewUserRequest
+    if err := c.BodyParser(&request); err != nil {
+       return handlerError(c, err)
+    }
+
+	user, err := h.userService.CreateUser(request)
+	if err != nil {
+		return handlerError(c, err)
+	}
+
+	return c.JSON(user)
+}

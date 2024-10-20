@@ -1,8 +1,6 @@
 package service
 
 import (
-	"fmt"
-
 	"github.com/CUBS-sources-code/CUBS-coin/errs"
 	"github.com/CUBS-sources-code/CUBS-coin/logs"
 	"github.com/CUBS-sources-code/CUBS-coin/repository"
@@ -44,9 +42,34 @@ func (s userService) GetUser(id string) (*UserResponse, error) {
 	if err != nil {
 
 		if err == gorm.ErrRecordNotFound {
-			fmt.Println("err")
 			logs.Error(err)
 			return nil, errs.NewNotFoundError("user not found")
+		}
+
+		logs.Error(err)
+		return nil, errs.NewUnexpectedError()
+	}
+
+	userResponse := UserResponse{
+		StudentId: user.ID,
+		Name: 	user.Name,
+		Balance: user.Balance,
+		CreatedAt: user.CreatedAt.String(),
+	}
+
+	return &userResponse, nil
+}
+
+func (s userService) CreateUser(userRequest NewUserRequest) (*UserResponse, error) {
+	id := userRequest.StudentId
+	name := userRequest.Name
+
+	user, err := s.userRepository.Create(id, name)
+	if err != nil {
+
+		if err == gorm.ErrDuplicatedKey {
+			logs.Error(err)
+			return nil, errs.NewBadRequestError("user already exists")
 		}
 
 		logs.Error(err)

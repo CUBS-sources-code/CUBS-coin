@@ -15,6 +15,7 @@ type User struct {
 type UserRepository interface {
 	GetAll() ([]User, error)
 	GetById(string) (*User, error)
+	Create(string, string) (*User, error)
 	AddBalance(string, int) (*User, error)
 	SubtractBalance(string, int) (*User, error)
 }

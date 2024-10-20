@@ -7,7 +7,13 @@ type UserResponse struct {
 	CreatedAt  string `json:"created_at"`
 }
 
+type NewUserRequest struct {
+	StudentId string `json:"student_id"`
+	Name      string `json:"name"`
+}
+
 type UserService interface {
 	GetUsers() ([]UserResponse, error)
 	GetUser(string) (*UserResponse, error)
+	CreateUser(NewUserRequest) (*UserResponse, error)
 }

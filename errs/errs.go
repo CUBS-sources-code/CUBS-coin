@@ -40,3 +40,10 @@ func NewForbiddenError(message string) error {
 		Message: message,
 	}
 }
+
+func NewBadRequestError(message string) error {
+	return AppError{
+		Code:    http.StatusBadRequest,
+		Message: message,
+	}
+}

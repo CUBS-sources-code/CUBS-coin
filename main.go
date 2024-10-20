@@ -41,6 +41,7 @@ func main() {
 	// Routes
 	app.Get("/users", userHandler.GetUsers)
 	app.Get("/user/:student_id", userHandler.GetUser)
+	app.Post("/createuser", userHandler.CreateUser)
 
     app.Get("/transactions", transactionHandler.GetTransactions)
 	app.Get("/transaction/:id", transactionHandler.GetTransaction)
@@ -73,6 +74,7 @@ func initDatabase() *gorm.DB {
 	dial := mysql.Open(dsn)
 	db, err := gorm.Open(dial, &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Silent),
+        TranslateError: true,
 	})
 	if err != nil {
 		panic(err)
