@@ -35,6 +35,9 @@ func main() {
     transactionService := service.NewTransactionService(transactionRepository, userRepository)
     transactionHandler := handler.NewTransactionHandler(transactionService)
 
+	authService := service.NewAuthService(userRepository)
+	authHandler := handler.NewAuthHandler(authService)
+
 	// Routes
 	api.Get("/users", userHandler.GetUsers)
 	api.Get("/user/:student_id", userHandler.GetUser)
@@ -43,6 +46,9 @@ func main() {
     api.Get("/transactions", transactionHandler.GetTransactions)
 	api.Get("/transaction/:id", transactionHandler.GetTransaction)
     api.Post("/transaction/create", transactionHandler.CreateTransaction)
+
+	api.Post("/signup", authHandler.SignUp)
+	api.Post("/signin", authHandler.SignIn)
 
 	// Start server
 	logs.Info("CUBS coin service started at port " + viper.GetString("app.port"))

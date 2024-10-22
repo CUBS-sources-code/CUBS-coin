@@ -74,12 +74,13 @@ func (r userRepositoryDB) SubtractBalance(id string, amount int) (*User, error) 
 	return &user, nil
 }
 
-func (r userRepositoryDB) Create(id string, name string) (*User, error) {
+func (r userRepositoryDB) Create(id string, name string, password string) (*User, error) {
 
 	user := User{
 		ID: id,
 		Name: name,
 		Balance: 0,
+		Password: password,
 	}
 
 	tx := r.db.Create(&user)
