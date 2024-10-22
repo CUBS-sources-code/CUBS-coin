@@ -10,6 +10,7 @@ type UserResponse struct {
 type NewUserRequest struct {
 	StudentId string `json:"student_id"`
 	Name      string `json:"name"`
+	Password  string `json:"password"`
 }
 
 type UserService interface {

@@ -4,6 +4,7 @@ import (
 	"github.com/CUBS-sources-code/CUBS-coin/errs"
 	"github.com/CUBS-sources-code/CUBS-coin/logs"
 	"github.com/CUBS-sources-code/CUBS-coin/repository"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
@@ -63,8 +64,19 @@ func (s userService) GetUser(id string) (*UserResponse, error) {
 func (s userService) CreateUser(userRequest NewUserRequest) (*UserResponse, error) {
 	id := userRequest.StudentId
 	name := userRequest.Name
+	password := userRequest.Password
 
-	user, err := s.userRepository.Create(id, name)
+	if id == "" || name == "" || password == "" {
+		return nil, errs.NewBadRequestError("invalid signup credentials")
+	}
+
+	hash, err := bcrypt.GenerateFromPassword([]byte(userRequest.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return nil, errs.NewUnexpectedError()
+	}
+	password = string(hash)
+
+	user, err := s.userRepository.Create(id, name, password)
 	if err != nil {
 
 		if err == gorm.ErrDuplicatedKey {
