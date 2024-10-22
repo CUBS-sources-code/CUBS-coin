@@ -3,6 +3,7 @@ package handler
 import (
 	"github.com/CUBS-sources-code/CUBS-coin/service"
 	"github.com/gofiber/fiber/v2"
+	"github.com/golang-jwt/jwt/v4"
 )
 
 type transactionHandler struct {
@@ -56,3 +57,24 @@ func (h transactionHandler) CreateTransaction(c *fiber.Ctx) error {
 
 	return c.JSON(transaction)
 }
+
+func (h transactionHandler) Transfer(c *fiber.Ctx) error {
+	
+	var request service.TransactionRequest
+    if err := c.BodyParser(&request); err != nil {
+       return handlerError(c, err)
+    }
+	
+	token := c.Locals("user").(*jwt.Token)
+	claims := token.Claims.(jwt.MapClaims)
+	request.Sender = claims["user"].(string)
+
+	
+	transaction, err := h.transactionService.CreateTransaction(request)
+	if err != nil {
+		return handlerError(c, err)
+	}
+
+	return c.JSON(transaction)
+}
+

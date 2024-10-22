@@ -7,6 +7,7 @@ import (
 	"github.com/CUBS-sources-code/CUBS-coin/logs"
 	"github.com/CUBS-sources-code/CUBS-coin/repository"
 	"github.com/golang-jwt/jwt/v4"
+	"github.com/spf13/viper"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
@@ -96,9 +97,9 @@ func createJWTToken(id string) (string, int64, error) {
 	exp := time.Now().Add(time.Minute * 30).Unix()
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)
-	claims["user_id"] = id
+	claims["user"] = id
 	claims["exp"] = exp
-	t, err := token.SignedString([]byte("secret"))
+	t, err := token.SignedString([]byte(viper.GetString("app.jwt-secret")))
 
 	if err != nil {
 		return "", 0, err

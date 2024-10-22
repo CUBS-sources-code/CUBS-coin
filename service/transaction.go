@@ -21,3 +21,7 @@ type TransactionService interface {
 	GetTransactionsByReceiver(string) ([]TransactionResponse, error)
 	CreateTransaction(TransactionRequest) (*TransactionResponse, error)
 }
+
+func (r *TransactionRequest) AssignSender(sender string) {
+	r.Sender = sender
+}
