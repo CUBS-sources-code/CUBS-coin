@@ -143,6 +143,4 @@
 ---
 
 ## Contributors
-
----
 - Chayoot Kositwanich
