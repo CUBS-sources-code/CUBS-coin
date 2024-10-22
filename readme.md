@@ -1,6 +1,5 @@
 # Cubs Coin API Documentation
 
----
 
 ## Public Routes
 
@@ -9,7 +8,6 @@
 **Description:** Fetches all transactions.  
 **Response:** JSON array of transactions.
 
----
 
 ### 2. Get Transaction by ID
 **GET** `/public/transaction/{id}`  
@@ -18,7 +16,6 @@
 - `id`: Transaction ID (integer)  
 **Response:** Transaction details.
 
----
 
 ### 3. Sign Up
 **POST** `/public/signup`  
@@ -34,7 +31,6 @@
 **Response:** User creation confirmation or error message.
 **Note:** default Balance=0, Role=member
 
----
 
 ### 4. Sign In
 **POST** `/public/signin`  
@@ -48,7 +44,6 @@
 ```
 **Response:** JWT token for authenticated access.
 
----
 
 ## Private Routes
 
@@ -58,7 +53,6 @@
 **Authentication:** Requires Bearer token.  
 **Response:** User details.
 
----
 
 ### 2. Transfer Cubs Coins
 **POST** `/public/transaction/create`  
@@ -72,7 +66,6 @@
 ```
 **Response:** Transfer confirmation or error message.
 
----
 
 ## Admin Routes
 
@@ -89,14 +82,12 @@
 ```
 **Response:** Transaction creation confirmation or error message.
 
----
 
 ### 2. Get All Users
 **GET** `/public/users`  
 **Description:** Fetches a list of all users.  
 **Response:** JSON array of user details.
 
----
 
 ### 3. Get User by ID
 **GET** `/api/user/{id}`  
@@ -105,7 +96,6 @@
 - `id`: User ID (integer)  
 **Response:** User details.
 
----
 
 ### 4. Create User
 **POST** `/public/user/create`  
@@ -120,7 +110,6 @@
 ```
 **Response:** User creation confirmation or error message.
 
----
 
 ### 5. Change Role to Admin
 **PATCH** `/api/changetoadmin/{id}`  
@@ -130,7 +119,6 @@
 - `id`: User ID (integer)  
 **Response:** Role change confirmation or error message.
 
----
 
 ### 6. Change Role to Member
 **PATCH** `/api/changetomember/{id}`  
@@ -140,7 +128,8 @@
 - `id`: User ID (integer)  
 **Response:** Role change confirmation or error message.
 
----
+
+
 
 ## Contributors
 - Chayoot Kositwanich
