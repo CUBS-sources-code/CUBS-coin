@@ -1,5 +1,0 @@
-CREATE TABLE `users` (`id` varchar(10),`name` longtext,`balance` bigint,`created_at` datetime(3) NULL,`updated_at` datetime(3) NULL,PRIMARY KEY (`id`))
-INSERT INTO `users` (`id`,`name`,`balance`,`created_at`,`updated_at`) VALUES ('6532042321','Float',1000,'2024-10-20 12:50:49.893','2024-10-20 12:50:49.893')
-INSERT INTO `users` (`id`,`name`,`balance`,`created_at`,`updated_at`) VALUES ('6532112421','Boom',5000,'2024-10-20 12:50:49.895','2024-10-20 12:50:49.895')
-INSERT INTO `users` (`id`,`name`,`balance`,`created_at`,`updated_at`) VALUES ('6638594921','Chega',2000,'2024-10-20 12:50:49.896','2024-10-20 12:50:49.896')
-INSERT INTO `users` (`id`,`name`,`balance`,`created_at`,`updated_at`) VALUES ('0000000000','CUBS pool',3000,'2024-10-20 12:50:49.897','2024-10-20 12:50:49.897')
