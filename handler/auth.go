@@ -5,6 +5,7 @@ import (
 	"github.com/CUBS-sources-code/CUBS-coin/service"
 	"github.com/gofiber/fiber/v2"
 	jwtware "github.com/gofiber/jwt/v3"
+	"github.com/golang-jwt/jwt/v4"
 	"github.com/spf13/viper"
 )
 
@@ -51,7 +52,6 @@ func (h authHandler) AuthErrorHandler(c *fiber.Ctx, err error) error {
 }
 
 func (h authHandler) AuthSuccessHandler(c *fiber.Ctx) error {
-	
 	c.Next()
 	return nil
 }
@@ -63,4 +63,16 @@ func (h authHandler) AuthorizationRequired() fiber.Handler {
 		ErrorHandler: h.AuthErrorHandler,
 		SuccessHandler: h.AuthSuccessHandler,
 	})
+}
+
+func (h authHandler) IsAdmin(c *fiber.Ctx) error {
+	token := c.Locals("user").(*jwt.Token)
+	claims := token.Claims.(jwt.MapClaims)
+	role := claims["role"].(string)
+  
+	if role != "admin" {
+	  return handlerError(c, errs.NewUnAuthorizedError())
+	}
+  
+	return c.Next()
 }

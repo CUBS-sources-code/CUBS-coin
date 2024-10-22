@@ -25,8 +25,8 @@ func main() {
 	db := initDatabase()
 	// Init fiber app
 	app := initApp()
+	api := app.Group("/api")
 	
-
 	userRepository := repository.NewUserRepositoryDB(db)
 	userService := service.NewUserService(userRepository)
 	userHandler := handler.NewUserHandler(userService)
@@ -38,23 +38,25 @@ func main() {
 	authService := service.NewAuthService(userRepository)
 	authHandler := handler.NewAuthHandler(authService)
 
-	public := app.Group("/public")
-	private := app.Group("/private")
-	private.Use(authHandler.AuthorizationRequired())
-	
-	// Routes
-	public.Get("/users", userHandler.GetUsers)
-	public.Get("/user/:student_id", userHandler.GetUser)
-	private.Get("/user", userHandler.GetMyUser)
-	public.Post("/user/create", userHandler.CreateUser)
+	// Public
+	api.Get("/transactions", transactionHandler.GetTransactions)
+	api.Get("/transaction/:id", transactionHandler.GetTransaction)
+	api.Post("/signup", authHandler.SignUp)
+	api.Post("/signin", authHandler.SignIn)
 
-    public.Get("/transactions", transactionHandler.GetTransactions)
-	public.Get("/transaction/:id", transactionHandler.GetTransaction)
-    public.Post("/transaction/create", transactionHandler.CreateTransaction)
-	private.Post("/transfer", transactionHandler.Transfer)
+	// Private
+	api.Use(authHandler.AuthorizationRequired())
+	api.Get("/user", userHandler.GetMyUser)
+	api.Post("/transfer", transactionHandler.Transfer)
 
-	public.Post("/signup", authHandler.SignUp)
-	public.Post("/signin", authHandler.SignIn)
+	// Admin
+	api.Use(authHandler.IsAdmin)
+	api.Post("/transaction/create", transactionHandler.CreateTransaction)
+	api.Post("/user/create", userHandler.CreateUser)
+	api.Get("/users", userHandler.GetUsers)
+	api.Get("/user/:student_id", userHandler.GetUser)
+	api.Patch("/changetoadmin/:student_id", userHandler.ChangeRoleToAdmin)
+	api.Patch("/changetomember/:student_id", userHandler.ChangeRoleToMember)
 
 	// Start server
 	logs.Info("CUBS coin service started at port " + viper.GetString("app.port"))

@@ -81,9 +81,48 @@ func (r userRepositoryDB) Create(id string, name string, password string) (*User
 		Name: name,
 		Balance: 0,
 		Password: password,
+		Role: "member",
 	}
 
 	tx := r.db.Create(&user)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+
+	return &user, nil
+}
+
+func (r userRepositoryDB) ChangeRoleToAdmin(id string) (*User, error) {
+
+	// Get data
+	user := User{}
+	tx := r.db.First(&user, id)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	
+	// Update data
+	user.Role = "admin"
+	tx = r.db.Save(&user)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+
+	return &user, nil
+}
+
+func (r userRepositoryDB) ChangeRoleToMember(id string) (*User, error) {
+
+	// Get data
+	user := User{}
+	tx := r.db.First(&user, id)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	
+	// Update data
+	user.Role = "member"
+	tx = r.db.Save(&user)
 	if tx.Error != nil {
 		return nil, tx.Error
 	}

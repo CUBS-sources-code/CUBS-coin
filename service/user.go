@@ -17,4 +17,6 @@ type UserService interface {
 	GetUsers() ([]UserResponse, error)
 	GetUser(string) (*UserResponse, error)
 	CreateUser(NewUserRequest) (*UserResponse, error)
+	ChangeRoleToAdmin(string) (*UserResponse, error)
+	ChangeRoleToMember(string) (*UserResponse, error)
 }

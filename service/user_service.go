@@ -97,3 +97,49 @@ func (s userService) CreateUser(userRequest NewUserRequest) (*UserResponse, erro
 
 	return &userResponse, nil
 }
+
+func (s userService) ChangeRoleToAdmin(id string) (*UserResponse, error) {
+	user, err := s.userRepository.ChangeRoleToAdmin(id)
+	if err != nil {
+
+		if err == gorm.ErrRecordNotFound {
+			logs.Error(err)
+			return nil, errs.NewNotFoundError("user not found")
+		}
+
+		logs.Error(err)
+		return nil, errs.NewUnexpectedError()
+	}
+
+	userResponse := UserResponse{
+		StudentId: user.ID,
+		Name: 	user.Name,
+		Balance: user.Balance,
+		CreatedAt: user.CreatedAt.String(),
+	}
+
+	return &userResponse, nil
+}
+
+func (s userService) ChangeRoleToMember(id string) (*UserResponse, error) {
+	user, err := s.userRepository.ChangeRoleToMember(id)
+	if err != nil {
+
+		if err == gorm.ErrRecordNotFound {
+			logs.Error(err)
+			return nil, errs.NewNotFoundError("user not found")
+		}
+
+		logs.Error(err)
+		return nil, errs.NewUnexpectedError()
+	}
+
+	userResponse := UserResponse{
+		StudentId: user.ID,
+		Name: 	user.Name,
+		Balance: user.Balance,
+		CreatedAt: user.CreatedAt.String(),
+	}
+
+	return &userResponse, nil
+}

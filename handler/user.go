@@ -66,3 +66,25 @@ func (h userHandler) CreateUser(c *fiber.Ctx) error {
 
 	return c.JSON(user)
 }
+
+func (h userHandler) ChangeRoleToAdmin(c *fiber.Ctx) error {
+	
+	student_id := c.Params("student_id")
+
+	user, err := h.userService.ChangeRoleToAdmin(student_id)
+	if err != nil {
+		return handlerError(c, err)
+	}
+	return c.JSON(user)
+}
+
+func (h userHandler) ChangeRoleToMember(c *fiber.Ctx) error {
+	
+	student_id := c.Params("student_id")
+
+	user, err := h.userService.ChangeRoleToMember(student_id)
+	if err != nil {
+		return handlerError(c, err)
+	}
+	return c.JSON(user)
+}

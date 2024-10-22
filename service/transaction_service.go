@@ -18,11 +18,6 @@ func NewTransactionService(transactionRepository repository.TransactionRepositor
 	return transactionService{transactionRepository: transactionRepository,
 		userRepository: userRepository}
 }
-// GetTransactions() ([]TransactionResponse, error)
-// GetTransaction(int) (*TransactionResponse, error)
-// GetTransactionsBySender(string) ([]TransactionResponse, error)
-// GetTransactionsByReceiver(string) ([]TransactionResponse, error)
-// CreateTransaction(string, string, int) (*TransactionResponse, error)
 
 func (s transactionService) GetTransactions() ([]TransactionResponse, error) {
 
@@ -116,7 +111,7 @@ func (s transactionService) GetTransactionsByReceiver(receiver_id string) ([]Tra
 }
 
 func (s transactionService) CreateTransaction(transactionRequest TransactionRequest) (*TransactionResponse, error) {
-	
+
 	sender_id := transactionRequest.Sender
 	receiver_id := transactionRequest.Receiver
 	amount := transactionRequest.Amount

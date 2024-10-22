@@ -35,7 +35,7 @@ func (s authService) SignUp(signUpRequest SignUpRequest) (*TokenResponse, error)
 	}
 	password = string(hash)
 
-	_, err = s.userRepository.Create(id, name, password)
+	user, err := s.userRepository.Create(id, name, password)
 	if err != nil {
 
 		if err == gorm.ErrDuplicatedKey {
@@ -47,7 +47,9 @@ func (s authService) SignUp(signUpRequest SignUpRequest) (*TokenResponse, error)
 		return nil, errs.NewUnexpectedError()
 	}
 
-	token, exp, err := createJWTToken(id)
+	role := user.Role
+
+	token, exp, err := createJWTToken(id, role)
 	if err != nil {
 		return nil, errs.NewUnexpectedError()
 	}
@@ -79,7 +81,9 @@ func (s authService) SignIn(signInRequest SignInRequest) (*TokenResponse, error)
 		return nil, errs.NewBadRequestError("invalid password")
 	}
 
-	token, exp, err := createJWTToken(id)
+	role := user.Role
+
+	token, exp, err := createJWTToken(id, role)
 	if err != nil {
 		return nil, errs.NewUnexpectedError()
 	}
@@ -93,12 +97,13 @@ func (s authService) SignIn(signInRequest SignInRequest) (*TokenResponse, error)
 	return &tokenResponse, nil
 }
 
-func createJWTToken(id string) (string, int64, error) {
+func createJWTToken(id string, role string) (string, int64, error) {
 	exp := time.Now().Add(time.Minute * 30).Unix()
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)
 	claims["user"] = id
 	claims["exp"] = exp
+	claims["role"] = role
 	t, err := token.SignedString([]byte(viper.GetString("app.jwt-secret")))
 
 	if err != nil {
