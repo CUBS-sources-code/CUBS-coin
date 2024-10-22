@@ -4,13 +4,13 @@
 ## Public Routes
 
 ### 1. Get All Transactions
-**GET** `/public/transactions`  
+**GET** `/api/transactions`  
 **Description:** Fetches all transactions.  
 **Response:** JSON array of transactions.
 
 
 ### 2. Get Transaction by ID
-**GET** `/public/transaction/{id}`  
+**GET** `/api/transaction/{id}`  
 **Description:** Fetches a transaction by its ID.  
 **Parameters:**  
 - `id`: Transaction ID (integer)  
@@ -18,7 +18,7 @@
 
 
 ### 3. Sign Up
-**POST** `/public/signup`  
+**POST** `/api/signup`  
 **Description:** Registers a new user.  
 **Request Body:**
 ```json
@@ -33,7 +33,7 @@
 
 
 ### 4. Sign In
-**POST** `/public/signin`  
+**POST** `/api/signin`  
 **Description:** Logs in a user and returns a JWT token.  
 **Request Body:**
 ```json
@@ -48,14 +48,14 @@
 ## Private Routes
 
 ### 1. Get My Info
-**GET** `/private/user`  
+**GET** `/api/user`  
 **Description:** Fetches information about the authenticated user.  
 **Authentication:** Requires Bearer token.  
 **Response:** User details.
 
 
 ### 2. Transfer Cubs Coins
-**POST** `/public/transaction/create`  
+**POST** `/api/transfer`  
 **Description:** Transfers Cubs Coins to another user.  
 **Request Body:**
 ```json
@@ -70,7 +70,7 @@
 ## Admin Routes
 
 ### 1. Create Transaction
-**POST** `/public/transaction/create`  
+**POST** `/api/transaction/create`  
 **Description:** Creates a new transaction between two users.  
 **Request Body:**
 ```json
@@ -84,7 +84,7 @@
 
 
 ### 2. Get All Users
-**GET** `/public/users`  
+**GET** `/api/users`  
 **Description:** Fetches a list of all users.  
 **Response:** JSON array of user details.
 
@@ -98,7 +98,7 @@
 
 
 ### 4. Create User
-**POST** `/public/user/create`  
+**POST** `/api/user/create`  
 **Description:** Creates a new user.  
 **Request Body:**
 ```json
