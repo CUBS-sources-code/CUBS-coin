@@ -116,7 +116,7 @@ func (s transactionService) CreateTransaction(transactionRequest TransactionRequ
 	receiver_id := transactionRequest.Receiver
 	amount := transactionRequest.Amount
 
-	if sender_id == "" || receiver_id == "" || amount == 0 {
+	if sender_id == "" || receiver_id == "" || amount <= 0 {
 		return nil, errs.NewBadRequestError("invalid transaction request")
 	}
 
