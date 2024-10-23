@@ -9,6 +9,7 @@ import (
 	"github.com/CUBS-sources-code/CUBS-coin/repository"
 	"github.com/CUBS-sources-code/CUBS-coin/service"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -25,6 +26,7 @@ func main() {
 	db := initDatabase()
 	// Init fiber app
 	app := initApp()
+	app.Use(cors.New())
 	api := app.Group("/api")
 	
 	userRepository := repository.NewUserRepositoryDB(db)
