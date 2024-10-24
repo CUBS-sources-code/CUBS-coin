@@ -45,6 +45,7 @@ func main() {
 	api.Get("/transaction/:id", transactionHandler.GetTransaction)
 	api.Post("/signup", authHandler.SignUp)
 	api.Post("/signin", authHandler.SignIn)
+	api.Get("/user/:student_id", userHandler.GetUser)
 
 	// Private
 	api.Use(authHandler.AuthorizationRequired())
@@ -56,7 +57,6 @@ func main() {
 	api.Post("/transaction/create", transactionHandler.CreateTransaction)
 	api.Post("/user/create", userHandler.CreateUser)
 	api.Get("/users", userHandler.GetUsers)
-	api.Get("/user/:student_id", userHandler.GetUser)
 	api.Patch("/changetoadmin/:student_id", userHandler.ChangeRoleToAdmin)
 	api.Patch("/changetomember/:student_id", userHandler.ChangeRoleToMember)
 
